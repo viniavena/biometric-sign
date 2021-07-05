@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
         Para entrar com sua impressão digital clique no botão abaixo!
       </Text>
       <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.title}>Entrar</Text>
+        <Ionicons name="finger-print" size={60} color="#fff" />
       </TouchableOpacity>
     </View>
   );
@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomRightRadius: 100,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
   },
   subTitle: {
     width: '80%',
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontWeight: '600',
-    marginTop: 20,
+    marginTop: 30,
   },
   loginButton: {
     width: 100,
@@ -55,5 +61,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 100,
     top: '30%',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
   },
 });
