@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import { Entypo } from '@expo/vector-icons';
+
 export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <Entypo name="leaf" size={30} color="#fff" />
         <Text style={styles.title}>TouchMint</Text>
       </View>
       <Text style={styles.subTitle}>
