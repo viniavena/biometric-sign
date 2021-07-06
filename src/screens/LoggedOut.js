@@ -87,6 +87,37 @@ export default function App() {
     );
   }
 
+  async function handleBiometricAuth() {
+    let biometrics = await LocalAuthentication.isEnrolledAsync;
+
+    if (!biometrics) {
+      auth = (
+        <>
+          <Text style={styles.subTitle}>
+            Entre com sua senha no campo abaixo!
+          </Text>
+          <TextInput
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={styles.inputPassword}
+            placeholder="Entre com sua senha"
+            textContentType="password"
+          />
+        </>
+      );
+    } else {
+      const biometricAuth = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Entrar com biometria',
+        cancelLabel: 'Entrar com senha',
+        disableDeviceFallback: true,
+      });
+
+      if (biometricAuth) {
+        console.log('Autenticação com biometria realizada com sucesso');
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
