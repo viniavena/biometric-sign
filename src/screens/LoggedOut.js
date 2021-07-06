@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as LocalAuthentication from 'expo-local-authentication';
 
 export default function App() {
+  const [password, setPassword] = useState('');
+
   const [isBiometricAvailable, setIsBiometricAvailable] = useState(false);
 
   // {FINGERPRINT, FACIAL_RECOGNITION, IRIS}.
@@ -17,34 +25,75 @@ export default function App() {
   async function verifySupports() {
     const supported = await LocalAuthentication.hasHardwareAsync();
     setIsBiometricAvailable(supported);
-
-    const supportedType =
+    const supportedTypes =
       await LocalAuthentication.supportedAuthenticationTypesAsync();
-
-    console.log(supportedType);
   }
 
   useEffect(() => {
     verifySupports();
   }, []);
 
+  if (supportedTypes.indexOf(1) >= 0) {
+    auth = (
+      <>
+        <Text style={styles.subTitle}>
+          Para entrar com sua impressão digital clique no botão abaixo!
+        </Text>
+        <TouchableOpacity style={styles.loginButton}>
+          <Ionicons name="finger-print" size={60} color="#fff" />
+        </TouchableOpacity>
+      </>
+    );
+  } else if (supportedTypes.indexOf(2) >= 0) {
+    auth = (
+      <>
+        <Text style={styles.subTitle}>
+          Para entrar com o reconhecimento de rosto clique no botão abaixo!
+        </Text>
+        <TouchableOpacity style={styles.loginButton}>
+          <MaterialCommunityIcons
+            name="face-recognition"
+            size={60}
+            color="#fff"
+          />
+        </TouchableOpacity>
+      </>
+    );
+  } else if (supportedTypes.indexOf(2) >= 0) {
+    auth = (
+      <>
+        <Text style={styles.subTitle}>
+          Para entrar com o reconhecimento de íris clique no botão abaixo!
+        </Text>
+        <TouchableOpacity style={styles.loginButton}>
+          <Ionicons name="md-eye" size={60} color="#fff" />
+        </TouchableOpacity>
+      </>
+    );
+  } else {
+    auth = (
+      <>
+        <Text style={styles.subTitle}>
+          Entre com sua senha no campo abaixo!
+        </Text>
+        <TextInput
+          value={password}
+          onChangeText={text => setPassword(text)}
+          style={styles.inputPassword}
+          placeholder="Entre com sua senha"
+          textContentType="password"
+        />
+      </>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Entypo name="leaf" size={30} color="#fff" />
         <Text style={styles.title}>idMint</Text>
+        {auth}
       </View>
-      {/* {
-          switch(supportedType){
-            case 
-          }
-      } */}
-      <Text style={styles.subTitle}>
-        Para entrar com sua impressão digital clique no botão abaixo!
-      </Text>
-      <TouchableOpacity style={styles.loginButton}>
-        <Ionicons name="finger-print" size={60} color="#fff" />
-      </TouchableOpacity>
     </View>
   );
 }
@@ -96,5 +145,11 @@ const styles = StyleSheet.create({
       height: 5,
     },
     shadowOpacity: 0.2,
+  },
+  inputPassword: {
+    height: 40,
+    width: '60%',
+    alignSelf: 'center',
+    borderBottomWidth: 1,
   },
 });
