@@ -9,6 +9,7 @@ import {
 
 import { Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { showMessage } from 'react-native-flash-message';
 
 export default function App() {
   const [password, setPassword] = useState('');
@@ -114,6 +115,10 @@ export default function App() {
 
       if (biometricAuth) {
         console.log('Autenticação com biometria realizada com sucesso');
+        showMessage({
+          message: 'Autenticação com biometria realizada com sucesso',
+          type: 'success',
+        });
       }
     }
   }
